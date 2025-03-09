@@ -1,11 +1,13 @@
 package com.android.app.libx.presentation.ui.components
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.foundation.text.selection.TextSelectionColors
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -26,10 +28,10 @@ import androidx.compose.ui.unit.dp
 import com.android.app.libx.R
 import com.android.app.libx.ui.theme.BlackShaded
 
-@Preview
 @Composable
 fun PassTextField(
-
+    password : String,
+    onPassChange : (String) -> Unit
 ) {
     var passwordVisible by remember {
         mutableStateOf(false)
@@ -37,10 +39,17 @@ fun PassTextField(
 
     TextField(
         modifier = Modifier
+            .fillMaxWidth()
             .border(Dp.Hairline, Color.White, RoundedCornerShape(10.dp))
         ,
-        value = "Email",
-        onValueChange = {},
+        value = password,
+        onValueChange = onPassChange,
+        placeholder = {
+            Text(
+                text = "Password",
+                color = BlackShaded
+            )
+        },
         colors = TextFieldDefaults.colors(
             focusedContainerColor = Color.Black,
             unfocusedContainerColor = Color.Black,

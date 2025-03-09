@@ -1,8 +1,10 @@
 package com.android.app.libx.presentation.ui.components
 
 import androidx.compose.foundation.border
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.selection.TextSelectionColors
+import androidx.compose.material3.Text
 import androidx.compose.material3.TextField
 import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
@@ -14,17 +16,26 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.android.app.libx.ui.theme.BlackShaded
 
-@Preview
+
 @Composable
 fun AppTextField(
-
+    text : String,
+    placeholder : String,
+    onValueChange : (String) -> Unit
 ) {
     TextField(
         modifier = Modifier
+            .fillMaxWidth()
             .border(Dp.Hairline, Color.White, RoundedCornerShape(10.dp))
         ,
-        value = "Email",
-        onValueChange = {},
+        value = text,
+        onValueChange = onValueChange,
+        placeholder = {
+            Text(
+                text = placeholder,
+                color = BlackShaded
+            )
+        },
         colors = TextFieldDefaults.colors(
             focusedContainerColor = Color.Black,
             unfocusedContainerColor = Color.Black,

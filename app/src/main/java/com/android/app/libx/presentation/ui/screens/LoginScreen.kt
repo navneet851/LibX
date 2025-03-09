@@ -31,16 +31,14 @@ import com.android.app.libx.ui.theme.BlackShaded
 
 @Preview(showBackground = true, backgroundColor = 0xFF000000)
 @Composable
-fun RegisterScreen() {
+fun LoginScreen() {
     var email by remember {
-        mutableStateOf("")
-    }
-    var name by remember {
         mutableStateOf("")
     }
     var password by remember {
         mutableStateOf("")
     }
+
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
@@ -59,21 +57,13 @@ fun RegisterScreen() {
         Spacer(modifier = Modifier.height(80.dp))
 
         Text(
-            text = "Register to LibX",
+            text = "Log in to LibX",
             fontWeight = FontWeight.Medium,
             color = Color.White,
             style = MaterialTheme.typography.headlineMedium
         )
 
-        Spacer(modifier = Modifier.height(40.dp))
-
-        AppTextField(
-            text = name,
-            placeholder = "Name"
-        ){
-            name = it
-        }
-        Spacer(modifier = Modifier.height(10.dp))
+        Spacer(modifier = Modifier.height(20.dp))
         
         AppTextField(
             text = email,
@@ -92,7 +82,18 @@ fun RegisterScreen() {
         Spacer(modifier = Modifier.height(10.dp))
 
         AppButton(
-            text = "Sign up"
+            text = "Sign in"
+        ){
+
+        }
+
+        Spacer(modifier = Modifier.height(20.dp))
+
+        AppButton(
+            modifier = Modifier.width(200.dp),
+            text = "forget password?",
+            textColor = Color.White,
+            buttonColor = BlackShaded
         ){
 
         }
@@ -100,7 +101,7 @@ fun RegisterScreen() {
         Spacer(modifier = Modifier.height(20.dp))
 
         Text(
-            text = "already have account!",
+            text = "new user",
             color = BlackShaded
         )
     }
