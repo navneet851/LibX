@@ -1,4 +1,4 @@
-package com.android.app.libx.ui.theme
+package com.android.app.libx.presentation.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
@@ -11,4 +11,4 @@ val PurpleGrey40 = Color(0xFF625b71)
 val Pink40 = Color(0xFF7D5260)
 
 
-val BlackShaded = Color(0xC8262626)
+val BlackShaded = Color(0xC8797878)

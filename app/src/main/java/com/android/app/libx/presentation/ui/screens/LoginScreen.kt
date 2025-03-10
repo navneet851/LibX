@@ -1,6 +1,9 @@
 package com.android.app.libx.presentation.ui.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -9,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,16 +26,18 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
+import androidx.navigation.NavHostController
 import com.android.app.libx.R
 import com.android.app.libx.presentation.ui.components.AppButton
 import com.android.app.libx.presentation.ui.components.AppTextField
 import com.android.app.libx.presentation.ui.components.PassTextField
-import com.android.app.libx.ui.theme.BlackShaded
+import com.android.app.libx.presentation.ui.theme.BlackShaded
 
-@Preview(showBackground = true, backgroundColor = 0xFF000000)
 @Composable
-fun LoginScreen() {
+fun LoginScreen(navController: NavHostController) {
     var email by remember {
         mutableStateOf("")
     }
@@ -44,6 +50,7 @@ fun LoginScreen() {
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxSize()
+            .background(Color.Black)
             .padding(20.dp)
     ) {
         Image(
@@ -90,10 +97,13 @@ fun LoginScreen() {
         Spacer(modifier = Modifier.height(20.dp))
 
         AppButton(
-            modifier = Modifier.width(200.dp),
+            modifier = Modifier
+                .width(200.dp)
+                .border(Dp.Hairline, Color.White, RoundedCornerShape(25.dp))
+            ,
             text = "forget password?",
             textColor = Color.White,
-            buttonColor = BlackShaded
+            buttonColor = Color.Black
         ){
 
         }
@@ -101,8 +111,16 @@ fun LoginScreen() {
         Spacer(modifier = Modifier.height(20.dp))
 
         Text(
-            text = "new user",
+            modifier = Modifier
+                .clickable {
+                    navController.navigate("register")
+                }
+            ,
+            fontSize = 16.sp,
+            text = "new user?",
             color = BlackShaded
         )
+
+        Spacer(modifier = Modifier.height(80.dp))
     }
 }

@@ -1,6 +1,8 @@
 package com.android.app.libx.presentation.ui.screens
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Spacer
@@ -8,7 +10,6 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.layout.width
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -23,15 +24,15 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavHostController
 import com.android.app.libx.R
 import com.android.app.libx.presentation.ui.components.AppButton
 import com.android.app.libx.presentation.ui.components.AppTextField
 import com.android.app.libx.presentation.ui.components.PassTextField
-import com.android.app.libx.ui.theme.BlackShaded
+import com.android.app.libx.presentation.ui.theme.BlackShaded
 
-@Preview(showBackground = true, backgroundColor = 0xFF000000)
 @Composable
-fun RegisterScreen() {
+fun RegisterScreen(navController: NavHostController) {
     var email by remember {
         mutableStateOf("")
     }
@@ -46,6 +47,7 @@ fun RegisterScreen() {
         verticalArrangement = Arrangement.Center,
         modifier = Modifier
             .fillMaxSize()
+            .background(Color.Black)
             .padding(20.dp)
     ) {
         Image(
@@ -100,8 +102,15 @@ fun RegisterScreen() {
         Spacer(modifier = Modifier.height(20.dp))
 
         Text(
-            text = "already have account!",
+            modifier = Modifier
+                .clickable {
+                    navController.navigate("login")
+                }
+            ,
+            text = "already have account?",
             color = BlackShaded
         )
+
+        Spacer(modifier = Modifier.height(80.dp))
     }
 }
