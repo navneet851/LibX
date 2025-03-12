@@ -43,7 +43,10 @@ import com.android.app.libx.presentation.navigation.MyNavHost
 import com.android.app.libx.presentation.navigation.Routes
 import com.android.app.libx.presentation.ui.theme.BlackShaded
 import com.android.app.libx.presentation.ui.theme.LibXTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
     @OptIn(ExperimentalMaterial3Api::class)
