@@ -25,7 +25,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -36,7 +35,7 @@ import com.android.app.libx.presentation.ui.components.AppButton
 import com.android.app.libx.presentation.ui.components.AppTextField
 import com.android.app.libx.presentation.ui.components.PassTextField
 import com.android.app.libx.presentation.ui.theme.BlackShaded
-import com.android.app.libx.presentation.viewmodel.LoginViewmodel
+import com.android.app.libx.presentation.viewmodel.AuthViewmodel
 
 @Composable
 fun LoginScreen(navController: NavHostController) {
@@ -47,7 +46,7 @@ fun LoginScreen(navController: NavHostController) {
         mutableStateOf("")
     }
 
-    val loginViewModel : LoginViewmodel = hiltViewModel()
+    val loginViewModel : AuthViewmodel = hiltViewModel()
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
