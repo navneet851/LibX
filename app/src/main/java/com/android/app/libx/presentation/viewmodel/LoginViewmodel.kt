@@ -6,6 +6,8 @@ import androidx.lifecycle.viewModelScope
 import com.android.app.libx.data.models.login.LoginRequest
 import com.android.app.libx.domain.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -15,9 +17,14 @@ class LoginViewmodel @Inject constructor(
 ) : ViewModel() {
 
     init {
-        viewModelScope.launch(Dispathers.IO) {
-            val response = repository.login(LoginRequest("nav700neet@gmail.com", "navbarneet"))
-            Log.d("LoginViewmodel", "login: ${response.body()}")
+        viewModelScope.launch(Dispatchers.IO) {
+//            val response1 = repository.login(LoginRequest("nav700neet@gmail.com", "navbarneet"))
+//            Log.d("LoginViewmodel", "login: ${response1.body()}")
+//
+//            delay(3000)
+            val response = repository.getUser()
+            Log.d("LoginViewmodel", "getUser: ${response.body()!!.user}")
         }
+
     }
 }

@@ -29,12 +29,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.android.app.libx.R
 import com.android.app.libx.presentation.ui.components.AppButton
 import com.android.app.libx.presentation.ui.components.AppTextField
 import com.android.app.libx.presentation.ui.components.PassTextField
 import com.android.app.libx.presentation.ui.theme.BlackShaded
+import com.android.app.libx.presentation.viewmodel.LoginViewmodel
 
 @Composable
 fun LoginScreen(navController: NavHostController) {
@@ -44,6 +46,8 @@ fun LoginScreen(navController: NavHostController) {
     var password by remember {
         mutableStateOf("")
     }
+
+    val loginViewModel : LoginViewmodel = hiltViewModel()
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,

@@ -5,8 +5,10 @@ import com.android.app.libx.data.models.login.LoginResponse
 import com.android.app.libx.data.models.register.RegisterRequest
 import com.android.app.libx.data.models.register.RegisterResponse
 import com.android.app.libx.data.models.user.User
+import com.android.app.libx.data.models.user.UserResponse
 import retrofit2.Response
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface ApiService {
@@ -16,5 +18,8 @@ interface ApiService {
 
     @POST("api/v1/auth/register")
     suspend fun register(@Body request: RegisterRequest) : Response<RegisterResponse>
+
+    @GET("api/v1/auth/me")
+    suspend fun getUser() : Response<UserResponse>
 
 }
