@@ -13,6 +13,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.material3.Button
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.ModalBottomSheet
@@ -180,46 +181,38 @@ fun RegisterScreen(navController: NavHostController) {
                         is Response.Loading -> {
                             Loader()
                         }
-
                         is Response.Success -> {
-                            Column(
-                                horizontalAlignment = Alignment.CenterHorizontally,
-                                verticalArrangement = Arrangement.Center,
+                            if ((register as Response.Success).data.success) {
+                                Column(
+                                    horizontalAlignment = Alignment.CenterHorizontally,
+                                    verticalArrangement = Arrangement.Center,
 
-                                ) {
-                                Text(
-                                    text = "ENTER OTP SEND TO YOUR MAIL",
-                                    fontWeight = FontWeight.Medium,
-                                )
-                                Spacer(modifier = Modifier.height(20.dp))
-                                VerifyOtpBox() { otp ->
-                                    if (otp.length == 5) {
-                                        authViewModel.verifyOtp(VerifyOtp(email, otp))
-                                        showLoader = true
+                                    ) {
+                                    Text(
+                                        text = "ENTER OTP SEND TO YOUR MAIL",
+                                        fontWeight = FontWeight.Medium,
+                                    )
+                                    Spacer(modifier = Modifier.height(20.dp))
+                                    VerifyOtpBox() { otp ->
+                                        if (otp.length == 5) {
+                                            authViewModel.verifyOtp(VerifyOtp(email, otp))
+                                            showLoader = true
+                                        }
+
                                     }
-
-                                }
-                                Spacer(modifier = Modifier.height(20.dp))
-                                if (showLoader) {
-                                    Loader()
+                                    Spacer(modifier = Modifier.height(20.dp))
+                                    if (showLoader) {
+                                        Loader()
+                                    }
                                 }
                             }
-
-//                            val data = (register as Response.Success<RegisterResponse>).data
-//                            if (!data.success){
-//                                Text(data.message)
-//                            }
-//                            else{
-//                                VerifyOtpBox()
-//                            }
+                            else{
+                                Text(text = (register as Response.Success).data.message)
+                            }
                         }
 
                         is Response.Error -> {
-                            Text(text = (register as Response.Error<RegisterResponse>).error)
-                        }
-
-                        else -> {
-
+                            Text(text = (register as Response.Error).error)
                         }
                     }
                 }

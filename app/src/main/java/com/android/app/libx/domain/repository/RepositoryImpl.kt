@@ -61,8 +61,11 @@ class RepositoryImpl @Inject constructor(
             emit(Response.Loading())
             if (response.isSuccessful && response.body()!!.success) {
                 emit(Response.Success(response.body()!!))
-            } else {
-                emit(Response.Error(response.message()))
+            } else if(response.isSuccessful && !response.body()!!.success) {
+                emit(Response.Error(response.body()!!.message))
+            }
+            else{
+                emit(Response.Error("try again"))
             }
         }
     }
