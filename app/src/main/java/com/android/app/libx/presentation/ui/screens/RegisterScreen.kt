@@ -42,7 +42,9 @@ import androidx.navigation.NavHostController
 import com.android.app.libx.R
 import com.android.app.libx.data.models.register.RegisterRequest
 import com.android.app.libx.data.models.register.RegisterResponse
+import com.android.app.libx.data.models.register.VerifyOtp
 import com.android.app.libx.domain.entities.Response
+import com.android.app.libx.presentation.navigation.Routes
 import com.android.app.libx.presentation.ui.components.AppButton
 import com.android.app.libx.presentation.ui.components.AppTextField
 import com.android.app.libx.presentation.ui.components.Loader
@@ -59,17 +61,18 @@ fun RegisterScreen(navController: NavHostController) {
 
     val authViewModel: AuthViewmodel = hiltViewModel()
     val register by authViewModel.register.collectAsState()
+    val verifyOtp by authViewModel.verifyOtp.collectAsState()
     var showSheet by remember {
-        mutableStateOf(true)
+        mutableStateOf(false)
     }
     val sheetState = rememberModalBottomSheetState()
     val coroutineScope = rememberCoroutineScope()
     val context = LocalContext.current
 
-    LaunchedEffect(register) {
-//        if (register is Response.Success && (register as Response.Success).data.success) {
-//            sheet.show()
-//        }
+    LaunchedEffect(verifyOtp) {
+        if (verifyOtp is Response.Success && (verifyOtp as Response.Success).data.success) {
+            navController.navigate(Routes.Home.route)
+        }
     }
 
 
@@ -138,6 +141,7 @@ fun RegisterScreen(navController: NavHostController) {
             authViewModel.register(
                 RegisterRequest(name, email, password)
             )
+            showSheet = true
         }
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -161,6 +165,9 @@ fun RegisterScreen(navController: NavHostController) {
                 },
 
                 ) {
+
+                var showLoader by remember { mutableStateOf(false) }
+
                 Box(
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
@@ -175,9 +182,29 @@ fun RegisterScreen(navController: NavHostController) {
                         }
 
                         is Response.Success -> {
-                            VerifyOtpBox(){
-                                Toast.makeText(context, it, Toast.LENGTH_SHORT).show()
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center,
+
+                                ) {
+                                Text(
+                                    text = "ENTER OTP SEND TO YOUR MAIL",
+                                    fontWeight = FontWeight.Medium,
+                                )
+                                Spacer(modifier = Modifier.height(20.dp))
+                                VerifyOtpBox() { otp ->
+                                    if (otp.length == 5) {
+                                        authViewModel.verifyOtp(VerifyOtp(email, otp))
+                                        showLoader = true
+                                    }
+
+                                }
+                                Spacer(modifier = Modifier.height(20.dp))
+                                if (showLoader) {
+                                    Loader()
+                                }
                             }
+
 //                            val data = (register as Response.Success<RegisterResponse>).data
 //                            if (!data.success){
 //                                Text(data.message)
