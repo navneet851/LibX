@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.android.app.libx.presentation.ui.screens.LoginScreen
+import com.android.app.libx.presentation.ui.screens.ProfileScreen
 import com.android.app.libx.presentation.ui.screens.RegisterScreen
 
 @Composable
@@ -21,12 +22,15 @@ fun MyNavHost(navController: NavHostController, startDestination: String) {
 
         }
         composable(Routes.Profile.route){
-//            ProfileScreen()
+            ProfileScreen()
         }
         composable(Routes.Search.route){
 
         }
         composable(Routes.Library.route){
+
+        }
+        composable(Routes.Admin.route){
 
         }
     }

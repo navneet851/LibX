@@ -12,4 +12,5 @@ sealed class Routes(
     data object Search : Routes("Search", "search", R.drawable.search, R.drawable.search)
     data object Library : Routes("Library", "library", R.drawable.library, R.drawable.library)
     data object Profile : Routes("Profile", "profile", R.drawable.profile_fill, R.drawable.profile)
+    data object Admin : Routes("Admin", "admin", R.drawable.shield, R.drawable.shield_h)
 }

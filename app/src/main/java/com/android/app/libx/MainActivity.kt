@@ -17,6 +17,7 @@ import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.GenericShape
 import androidx.compose.material3.BottomAppBar
@@ -100,8 +101,9 @@ class MainActivity : ComponentActivity() {
                         val navItems = listOf(
                             Routes.Home,
                             Routes.Search,
+                            Routes.Admin,
                             Routes.Library,
-                            Routes.Profile
+                            Routes.Profile,
                         )
 
 
@@ -189,10 +191,15 @@ class MainActivity : ComponentActivity() {
                             }
                         }
                         is Response.Success -> {
-                            MyNavHost(navController, Routes.Home.route)
+                            Box(modifier = Modifier.padding(it)){
+                                MyNavHost(navController, Routes.Home.route)
+                            }
+
                         }
                         is Response.Error -> {
-                            MyNavHost(navController, "login")
+                            Box(modifier = Modifier.padding(it)){
+                                MyNavHost(navController, "login")
+                            }
                         }
                     }
                 }
