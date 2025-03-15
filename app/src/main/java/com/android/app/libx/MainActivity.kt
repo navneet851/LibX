@@ -2,6 +2,7 @@ package com.android.app.libx
 
 import android.annotation.SuppressLint
 import android.os.Bundle
+import android.widget.Toast
 import androidx.activity.ComponentActivity
 import androidx.activity.SystemBarStyle
 import androidx.activity.compose.setContent
@@ -9,8 +10,10 @@ import androidx.activity.enableEdgeToEdge
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.slideInVertically
 import androidx.compose.animation.slideOutVertically
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.interaction.MutableInteractionSource
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
@@ -26,10 +29,13 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.toArgb
@@ -37,12 +43,16 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.android.app.libx.domain.entities.Response
 import com.android.app.libx.presentation.navigation.MyNavHost
 import com.android.app.libx.presentation.navigation.Routes
+import com.android.app.libx.presentation.ui.components.Loader
 import com.android.app.libx.presentation.ui.theme.BlackShaded
 import com.android.app.libx.presentation.ui.theme.LibXTheme
+import com.android.app.libx.presentation.viewmodel.AuthViewmodel
 import dagger.hilt.android.AndroidEntryPoint
 
 
@@ -160,7 +170,31 @@ class MainActivity : ComponentActivity() {
                 )
 
                 {
-                    MyNavHost(navController)
+                    val authViewModel : AuthViewmodel = hiltViewModel()
+                    val user by authViewModel.user.collectAsState()
+
+//                    if (user is Response.Error){
+//                        Toast.makeText(this, (user as Response.Error).error, Toast.LENGTH_SHORT).show()
+//                    }
+                    LaunchedEffect(key1 = Unit){
+                        authViewModel.getUser()
+                    }
+                    when(user){
+                        is Response.Loading -> {
+                            Box(
+                                contentAlignment = Alignment.Center,
+                                modifier = Modifier.fillMaxSize()
+                            ){
+                                Loader()
+                            }
+                        }
+                        is Response.Success -> {
+                            MyNavHost(navController, Routes.Home.route)
+                        }
+                        is Response.Error -> {
+                            MyNavHost(navController, "login")
+                        }
+                    }
                 }
             }
         }

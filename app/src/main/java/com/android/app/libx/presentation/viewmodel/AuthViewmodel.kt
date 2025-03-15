@@ -9,6 +9,7 @@ import com.android.app.libx.data.models.register.RegisterRequest
 import com.android.app.libx.data.models.register.RegisterResponse
 import com.android.app.libx.data.models.register.VerifyOtp
 import com.android.app.libx.data.models.user.User
+import com.android.app.libx.data.models.user.UserResponse
 import com.android.app.libx.domain.entities.Response
 import com.android.app.libx.domain.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -22,9 +23,17 @@ class AuthViewmodel @Inject constructor(
     private val repository: Repository
 ) : ViewModel() {
 
-    val register : MutableStateFlow<Response<RegisterResponse>> = MutableStateFlow(Response.Success(RegisterResponse(false,"")))
-    val login : MutableStateFlow<Response<RegisterResponse>> = MutableStateFlow(Response.Success(RegisterResponse(false,"")))
-    val verifyOtp : MutableStateFlow<Response<LoginResponse>> = MutableStateFlow(Response.Success(LoginResponse(false,"", "", User("","","","", "", false, emptyList(),"", "", -1))))
+    val user : MutableStateFlow<Response<UserResponse>> = MutableStateFlow(Response.Loading())
+
+    val register : MutableStateFlow<Response<RegisterResponse>> = MutableStateFlow(Response.Loading())
+    val login : MutableStateFlow<Response<LoginResponse>?> = MutableStateFlow(null)
+    val verifyOtp : MutableStateFlow<Response<LoginResponse>> = MutableStateFlow(Response.Loading())
+
+    fun getUser() = viewModelScope.launch(Dispatchers.IO) {
+        repository.getUser().collect{
+            user.value = it
+        }
+    }
 
     fun register(request: RegisterRequest) = viewModelScope.launch(Dispatchers.IO) {
             repository.register(request).collect{
@@ -33,7 +42,9 @@ class AuthViewmodel @Inject constructor(
     }
 
     fun login(request: LoginRequest) = viewModelScope.launch(Dispatchers.IO) {
-        repository.login(request)
+        repository.login(request).collect{
+            login.value = it
+        }
     }
 
     fun verifyOtp(request: VerifyOtp) = viewModelScope.launch(Dispatchers.IO) {

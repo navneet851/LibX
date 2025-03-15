@@ -8,9 +8,9 @@ import com.android.app.libx.presentation.ui.screens.LoginScreen
 import com.android.app.libx.presentation.ui.screens.RegisterScreen
 
 @Composable
-fun MyNavHost(navController: NavHostController) {
+fun MyNavHost(navController: NavHostController, startDestination: String) {
 
-    NavHost(navController, startDestination = "login"){
+    NavHost(navController, startDestination = startDestination){
         composable("login") {
             LoginScreen(navController)
         }

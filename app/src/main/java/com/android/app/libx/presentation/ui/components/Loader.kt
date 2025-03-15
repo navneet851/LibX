@@ -12,7 +12,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 
 @Composable
-fun Loader() {
+fun Loader(modifier: Modifier = Modifier) {
     Column(
         Modifier
             .fillMaxSize()
@@ -21,10 +21,8 @@ fun Loader() {
         verticalArrangement = Arrangement.Center
     ) {
         CircularProgressIndicator(
-            modifier = Modifier
-                .size(45.dp),
+            modifier = modifier.size(45.dp),
             color = Color.White
         )
     }
-
 }

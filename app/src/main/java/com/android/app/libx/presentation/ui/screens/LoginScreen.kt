@@ -16,6 +16,8 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
@@ -31,11 +33,16 @@ import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavHostController
 import com.android.app.libx.R
+import com.android.app.libx.data.models.login.LoginRequest
+import com.android.app.libx.domain.entities.Response
+import com.android.app.libx.presentation.navigation.Routes
 import com.android.app.libx.presentation.ui.components.AppButton
 import com.android.app.libx.presentation.ui.components.AppTextField
 import com.android.app.libx.presentation.ui.components.PassTextField
 import com.android.app.libx.presentation.ui.theme.BlackShaded
 import com.android.app.libx.presentation.viewmodel.AuthViewmodel
+import kotlinx.coroutines.delay
+import kotlin.math.log
 
 @Composable
 fun LoginScreen(navController: NavHostController) {
@@ -46,7 +53,38 @@ fun LoginScreen(navController: NavHostController) {
         mutableStateOf("")
     }
 
-    val loginViewModel : AuthViewmodel = hiltViewModel()
+    val loginViewModel: AuthViewmodel = hiltViewModel()
+    val login by loginViewModel.login.collectAsState()
+
+    var loginState by remember {
+        mutableStateOf("Sign in")
+    }
+
+
+    LaunchedEffect(login) {
+        when (login) {
+            is Response.Loading -> {
+                loginState = "Processing..."
+            }
+
+            is Response.Success -> {
+                if ((login as Response.Success).data.success) {
+                    loginState = "Success"
+                    navController.navigate(Routes.Home.route)
+                }
+            }
+
+            is Response.Error -> {
+                loginState = (login as Response.Error).error.uppercase()
+                delay(3000)
+                loginState = "Sign in"
+            }
+
+            else -> {
+                loginState = "Sign in"
+            }
+        }
+    }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -58,8 +96,7 @@ fun LoginScreen(navController: NavHostController) {
     ) {
         Image(
             modifier = Modifier
-                .size(50.dp)
-            ,
+                .size(50.dp),
             painter = painterResource(R.drawable.logo),
             contentDescription = "logo"
         )
@@ -74,27 +111,27 @@ fun LoginScreen(navController: NavHostController) {
         )
 
         Spacer(modifier = Modifier.height(20.dp))
-        
+
         AppTextField(
             text = email,
             placeholder = "Email"
-        ){
+        ) {
             email = it
         }
         Spacer(modifier = Modifier.height(10.dp))
 
         PassTextField(
             password
-        ){
+        ) {
             password = it
         }
 
         Spacer(modifier = Modifier.height(10.dp))
 
         AppButton(
-            text = "Sign in"
-        ){
-
+            text = loginState
+        ) {
+            loginViewModel.login(LoginRequest(email, password))
         }
 
         Spacer(modifier = Modifier.height(20.dp))
@@ -102,12 +139,11 @@ fun LoginScreen(navController: NavHostController) {
         AppButton(
             modifier = Modifier
                 .width(200.dp)
-                .border(Dp.Hairline, Color.White, RoundedCornerShape(25.dp))
-            ,
+                .border(Dp.Hairline, Color.White, RoundedCornerShape(25.dp)),
             text = "forget password?",
             textColor = Color.White,
             buttonColor = Color.Black
-        ){
+        ) {
 
         }
 
@@ -117,8 +153,7 @@ fun LoginScreen(navController: NavHostController) {
             modifier = Modifier
                 .clickable {
                     navController.navigate("register")
-                }
-            ,
+                },
             fontSize = 16.sp,
             text = "new user?",
             color = BlackShaded

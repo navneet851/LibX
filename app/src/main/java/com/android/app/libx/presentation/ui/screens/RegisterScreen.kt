@@ -67,8 +67,6 @@ fun RegisterScreen(navController: NavHostController) {
         mutableStateOf(false)
     }
     val sheetState = rememberModalBottomSheetState()
-    val coroutineScope = rememberCoroutineScope()
-    val context = LocalContext.current
 
     LaunchedEffect(verifyOtp) {
         if (verifyOtp is Response.Success && (verifyOtp as Response.Success).data.success) {
@@ -163,6 +161,7 @@ fun RegisterScreen(navController: NavHostController) {
                 sheetState = sheetState,
                 onDismissRequest = {
                     showSheet = false
+
                 },
 
                 ) {
@@ -173,7 +172,6 @@ fun RegisterScreen(navController: NavHostController) {
                     contentAlignment = Alignment.Center,
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(10.dp)
                         .height(200.dp)
                 ) {
 
@@ -181,38 +179,46 @@ fun RegisterScreen(navController: NavHostController) {
                         is Response.Loading -> {
                             Loader()
                         }
+
                         is Response.Success -> {
-                            if ((register as Response.Success).data.success) {
-                                Column(
-                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                    verticalArrangement = Arrangement.Center,
+                            Column(
+                                horizontalAlignment = Alignment.CenterHorizontally,
+                                verticalArrangement = Arrangement.Center,
 
-                                    ) {
-                                    Text(
-                                        text = "ENTER OTP SEND TO YOUR MAIL",
-                                        fontWeight = FontWeight.Medium,
-                                    )
-                                    Spacer(modifier = Modifier.height(20.dp))
-                                    VerifyOtpBox() { otp ->
-                                        if (otp.length == 5) {
-                                            authViewModel.verifyOtp(VerifyOtp(email, otp))
-                                            showLoader = true
-                                        }
+                                ) {
+                                Text(
+                                    text = "ENTER OTP SEND TO YOUR MAIL",
+                                    fontWeight = FontWeight.Medium,
+                                )
+                                Spacer(modifier = Modifier.height(20.dp))
+                                VerifyOtpBox() { otp ->
+                                    if (otp.length == 5) {
+                                        authViewModel.verifyOtp(VerifyOtp(email, otp))
+                                        showLoader = true
+                                    }
 
-                                    }
-                                    Spacer(modifier = Modifier.height(20.dp))
-                                    if (showLoader) {
-                                        Loader()
-                                    }
                                 }
-                            }
-                            else{
-                                Text(text = (register as Response.Success).data.message)
+                                Spacer(modifier = Modifier.height(20.dp))
+                                if(verifyOtp is Response.Error){
+                                    showLoader = false
+                                    Text(
+                                        text = (verifyOtp as Response.Error).error.uppercase(),
+                                        fontWeight = FontWeight.Bold
+                                    )
+
+                                }
+                                if (showLoader) {
+                                    Loader()
+                                }
                             }
                         }
 
                         is Response.Error -> {
-                            Text(text = (register as Response.Error).error)
+                            Text(
+                                text = (register as Response.Error).error.uppercase(),
+                                fontWeight = FontWeight.Bold
+                            )
+
                         }
                     }
                 }
