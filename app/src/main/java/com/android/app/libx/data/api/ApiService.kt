@@ -1,5 +1,7 @@
 package com.android.app.libx.data.api
 
+import com.android.app.libx.data.models.book.Book
+import com.android.app.libx.data.models.book.BooksResponse
 import com.android.app.libx.data.models.login.LoginRequest
 import com.android.app.libx.data.models.login.LoginResponse
 import com.android.app.libx.data.models.register.RegisterRequest
@@ -18,22 +20,22 @@ import retrofit2.http.Path
 interface ApiService {
 
     @GET("api/v1/auth/me")
-    suspend fun getUser() : Response<UserResponse>
+    suspend fun getUser(): Response<UserResponse>
 
 
     // Auth routes
 
     @POST("api/v1/auth/login")
-    suspend fun login(@Body request: LoginRequest) : Response<LoginResponse>
+    suspend fun login(@Body request: LoginRequest): Response<LoginResponse>
 
     @GET("api/v1/auth/logout")
-    suspend fun logout() : Response<RegisterResponse> //logout response body is same as register response
+    suspend fun logout(): Response<RegisterResponse> //logout response body is same as register response
 
     @POST("api/v1/auth/register")
-    suspend fun register(@Body request: RegisterRequest) : Response<RegisterResponse>
+    suspend fun register(@Body request: RegisterRequest): Response<RegisterResponse>
 
     @POST("api/v1/auth/verify-otp")
-    suspend fun verifyOtp(@Body request: VerifyOtp) : Response<LoginResponse> // verify otp response body is same as login response
+    suspend fun verifyOtp(@Body request: VerifyOtp): Response<LoginResponse> // verify otp response body is same as login response
 
 //    @POST("api/v1/auth/password/forgot-password")
 //    suspend fun forgotPassword(@Body request: ForgotPasswordRequest) : Response<ForgotPasswordResponse>
@@ -47,7 +49,7 @@ interface ApiService {
     // Admin routes
 
     @GET("all")
-    suspend fun getAllUser() : Response<List<UserResponse>>
+    suspend fun getAllUser(): Response<List<UserResponse>>
 
 //    @POST("add/new-admin")
 //    suspend fun registerNewAdmin(@Body request: RegisterRequest) : Response<RegisterResponse>
@@ -70,10 +72,10 @@ interface ApiService {
 //
 //    @POST("api/v1/book/add")
 //    suspend fun addBook(@Body request: AddBookRequest) : Response<AddBookResponse>
-//
-//    @GET("api/v1/book/all")
-//    suspend fun getAllBooks() : Response<List<Book>>
-//
+
+    @GET("api/v1/book/all")
+    suspend fun getAllBooks(): Response<BooksResponse>
+
 //    @DELETE("api/v1/book/delete/{id}")
 //    suspend fun deleteBook(@Path("id") id: String) : Response<Book>
 

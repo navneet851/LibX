@@ -1,5 +1,6 @@
 package com.android.app.libx.domain.repository
 
+import com.android.app.libx.data.models.book.BooksResponse
 import com.android.app.libx.data.models.login.LoginRequest
 import com.android.app.libx.data.models.login.LoginResponse
 import com.android.app.libx.data.models.register.RegisterRequest
@@ -17,5 +18,9 @@ interface Repository {
     suspend fun verifyOtp(request: VerifyOtp): Flow<Response<LoginResponse>>
     suspend fun register(request: RegisterRequest): Flow<Response<RegisterResponse>>
     suspend fun logout(): Flow<Response<RegisterResponse>>
+
+    //book
+
+    suspend fun  getAllBooks(): Flow<Response<BooksResponse>>
 
 }

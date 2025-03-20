@@ -2,6 +2,7 @@ package com.android.app.libx.domain.repository
 
 import android.util.Log
 import com.android.app.libx.data.api.ApiService
+import com.android.app.libx.data.models.book.BooksResponse
 import com.android.app.libx.data.models.login.LoginRequest
 import com.android.app.libx.data.models.login.LoginResponse
 import com.android.app.libx.data.models.register.RegisterRequest
@@ -20,7 +21,7 @@ class RepositoryImpl @Inject constructor(
     private val apiService: ApiService
 ) : Repository {
 
-    private fun getErrorMessage(errorBody: String?) : String{
+    private fun getErrorMessage(errorBody: String?): String {
         return if (errorBody != null) {
             try {
                 JSONObject(errorBody).getString("message")
@@ -80,8 +81,7 @@ class RepositoryImpl @Inject constructor(
             emit(Response.Loading())
             if (response.isSuccessful && response.body()!!.success) {
                 emit(Response.Success(response.body()!!))
-            }
-            else{
+            } else {
                 val errorBody = response.errorBody()?.string()
                 emit(Response.Error(getErrorMessage(errorBody)))
             }
@@ -96,6 +96,22 @@ class RepositoryImpl @Inject constructor(
                 emit(Response.Success(response.body()!!))
             } else {
                 emit(Response.Error(response.message()))
+            }
+        }
+    }
+
+
+    // book
+
+    override suspend fun getAllBooks(): Flow<Response<BooksResponse>> {
+        val response = apiService.getAllBooks()
+        return flow {
+            emit(Response.Loading())
+            if (response.isSuccessful && response.body()!!.success) {
+                emit(Response.Success(response.body()!!))
+            } else {
+                val errorBody = response.errorBody()?.string()
+                emit(Response.Error(getErrorMessage(errorBody)))
             }
         }
     }
