@@ -4,9 +4,11 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.android.app.libx.presentation.ui.screens.LibraryScreen
 import com.android.app.libx.presentation.ui.screens.LoginScreen
 import com.android.app.libx.presentation.ui.screens.ProfileScreen
 import com.android.app.libx.presentation.ui.screens.RegisterScreen
+import com.android.app.libx.presentation.ui.screens.SearchScreen
 
 @Composable
 fun MyNavHost(navController: NavHostController, startDestination: String) {
@@ -25,10 +27,10 @@ fun MyNavHost(navController: NavHostController, startDestination: String) {
             ProfileScreen()
         }
         composable(Routes.Search.route){
-
+            SearchScreen()
         }
         composable(Routes.Library.route){
-
+            LibraryScreen()
         }
         composable(Routes.Admin.route){
 

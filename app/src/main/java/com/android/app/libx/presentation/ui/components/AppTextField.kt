@@ -13,6 +13,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.android.app.libx.presentation.ui.theme.BlackShaded
+import kotlin.math.sin
 
 
 @Composable
@@ -34,6 +35,7 @@ fun AppTextField(
                 color = BlackShaded
             )
         },
+        singleLine = true,
         colors = TextFieldDefaults.colors(
             focusedContainerColor = Color.Black,
             unfocusedContainerColor = Color.Black,

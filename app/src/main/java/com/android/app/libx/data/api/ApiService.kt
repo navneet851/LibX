@@ -73,7 +73,7 @@ interface ApiService {
 //    @POST("api/v1/book/add")
 //    suspend fun addBook(@Body request: AddBookRequest) : Response<AddBookResponse>
 
-    @GET("api/v1/book/all")
+    @GET("api/v1/books/all")
     suspend fun getAllBooks(): Response<BooksResponse>
 
 //    @DELETE("api/v1/book/delete/{id}")

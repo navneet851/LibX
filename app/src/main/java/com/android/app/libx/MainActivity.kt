@@ -73,9 +73,8 @@ class MainActivity : ComponentActivity() {
                 val navController = rememberNavController()
                 val navStack by navController.currentBackStackEntryAsState()
                 val currentRoute = navStack?.destination?.route
-//                var navigationVisibility by remember {
-//                    mutableStateOf(false)
-//                }
+
+
 
                 Scaffold(
                     modifier = Modifier.fillMaxSize(),
@@ -109,7 +108,7 @@ class MainActivity : ComponentActivity() {
 
 
                         AnimatedVisibility(
-                            visible = (currentRoute != "login" && currentRoute != "register"),
+                            visible = (currentRoute != "login" && currentRoute != "register" && currentRoute != null),
                             enter = slideInVertically(initialOffsetY = { it }),
                             exit = slideOutVertically(targetOffsetY = { it }),
                         ) {
@@ -175,9 +174,6 @@ class MainActivity : ComponentActivity() {
                     val authViewModel : AuthViewmodel = hiltViewModel()
                     val user by authViewModel.user.collectAsState()
 
-//                    if (user is Response.Error){
-//                        Toast.makeText(this, (user as Response.Error).error, Toast.LENGTH_SHORT).show()
-//                    }
                     LaunchedEffect(key1 = Unit){
                         authViewModel.getUser()
                     }
