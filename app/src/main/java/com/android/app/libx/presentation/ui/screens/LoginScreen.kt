@@ -70,6 +70,9 @@ fun LoginScreen(navController: NavHostController) {
             is Response.Success -> {
                 if ((login as Response.Success).data.success) {
                     loginState = "Success"
+                    if ((login as Response.Success).data.user.role == "Admin"){
+                        loginViewModel.setAdmin(true)
+                    }
                     navController.navigate(Routes.Home.route)
                 }
             }

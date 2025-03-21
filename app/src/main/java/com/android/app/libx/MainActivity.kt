@@ -35,6 +35,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -74,6 +75,14 @@ class MainActivity : ComponentActivity() {
                 val navStack by navController.currentBackStackEntryAsState()
                 val currentRoute = navStack?.destination?.route
 
+                val authViewModel: AuthViewmodel = hiltViewModel()
+                val user by authViewModel.user.collectAsState()
+
+                val isAdmin by authViewModel.admin.collectAsState()
+
+                LaunchedEffect(key1 = Unit) {
+                    authViewModel.getUser()
+                }
 
 
                 Scaffold(
@@ -97,13 +106,15 @@ class MainActivity : ComponentActivity() {
                         }
                     },
                     bottomBar = {
-                        val navItems = listOf(
+                        val navItems = mutableListOf(
                             Routes.Home,
                             Routes.Search,
-                            Routes.Admin,
                             Routes.Library,
                             Routes.Profile,
                         )
+                        if (isAdmin) {
+                            navItems.add(2, Routes.Admin)
+                        }
 
 
 
@@ -142,7 +153,7 @@ class MainActivity : ComponentActivity() {
                                             Icon(
                                                 painter = painterResource(
                                                     id =
-                                                    if (currentRoute == item.route) item.selectedIcon else item.unselectedIcon
+                                                        if (currentRoute == item.route) item.selectedIcon else item.unselectedIcon
                                                 ),
                                                 contentDescription = item.label,
                                                 modifier = Modifier.size(20.dp)
@@ -171,29 +182,29 @@ class MainActivity : ComponentActivity() {
                 )
 
                 {
-                    val authViewModel : AuthViewmodel = hiltViewModel()
-                    val user by authViewModel.user.collectAsState()
 
-                    LaunchedEffect(key1 = Unit){
-                        authViewModel.getUser()
-                    }
-                    when(user){
+                    when (user) {
                         is Response.Loading -> {
                             Box(
                                 contentAlignment = Alignment.Center,
                                 modifier = Modifier.fillMaxSize()
-                            ){
+                            ) {
                                 Loader()
                             }
                         }
+
                         is Response.Success -> {
-                            Box(modifier = Modifier.padding(it)){
+                            Box(modifier = Modifier.padding(it)) {
+                                if ((user as Response.Success).data.user.role == "Admin") {
+                                    authViewModel.setAdmin(true)
+                                }
                                 MyNavHost(navController, Routes.Home.route)
                             }
 
                         }
+
                         is Response.Error -> {
-                            Box(modifier = Modifier.padding(it)){
+                            Box(modifier = Modifier.padding(it)) {
                                 MyNavHost(navController, "login")
                             }
                         }

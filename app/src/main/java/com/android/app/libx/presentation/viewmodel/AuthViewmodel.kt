@@ -24,6 +24,7 @@ class AuthViewmodel @Inject constructor(
 ) : ViewModel() {
 
     val user : MutableStateFlow<Response<UserResponse>> = MutableStateFlow(Response.Loading())
+    val admin = MutableStateFlow(false)
 
     val register : MutableStateFlow<Response<RegisterResponse>> = MutableStateFlow(Response.Loading())
     val login : MutableStateFlow<Response<LoginResponse>?> = MutableStateFlow(null)
@@ -33,6 +34,10 @@ class AuthViewmodel @Inject constructor(
         repository.getUser().collect{
             user.value = it
         }
+    }
+
+    fun setAdmin(isAdmin: Boolean) {
+        admin.value = isAdmin
     }
 
     fun register(request: RegisterRequest) = viewModelScope.launch(Dispatchers.IO) {

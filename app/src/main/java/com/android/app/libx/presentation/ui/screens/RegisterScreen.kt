@@ -70,6 +70,9 @@ fun RegisterScreen(navController: NavHostController) {
 
     LaunchedEffect(verifyOtp) {
         if (verifyOtp is Response.Success && (verifyOtp as Response.Success).data.success) {
+            if ((verifyOtp as Response.Success).data.user.role == "Admin"){
+                authViewModel.setAdmin(true)
+            }
             navController.navigate(Routes.Home.route)
         }
     }
