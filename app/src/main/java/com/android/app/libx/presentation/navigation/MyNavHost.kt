@@ -24,7 +24,7 @@ fun MyNavHost(navController: NavHostController, startDestination: String) {
 
         }
         composable(Routes.Profile.route){
-            ProfileScreen()
+            ProfileScreen(navController)
         }
         composable(Routes.Search.route){
             SearchScreen()

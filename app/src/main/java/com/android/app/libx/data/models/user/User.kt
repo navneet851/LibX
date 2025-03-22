@@ -1,5 +1,6 @@
 package com.android.app.libx.data.models.user
 
+import com.android.app.libx.domain.entities.BorrowedBook
 import com.google.gson.annotations.SerializedName
 
 data class User(
@@ -9,7 +10,7 @@ data class User(
     val password: String,
     val role: String,
     val accountVerified: Boolean,
-    val borrowedBooks: List<String>,
+    val borrowedBooks: List<BorrowedBook>,
     val createdAt: String,
     val updatedAt: String,
     @SerializedName("__v") val version: Int

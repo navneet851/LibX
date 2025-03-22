@@ -16,10 +16,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.android.app.libx.domain.entities.BorrowedBook
 
-@Preview
+
 @Composable
-fun BorrowedBookTemplate() {
+fun BorrowedBookTemplate(borrowedBook: BorrowedBook, onClick : () -> Unit) {
     Column(
         modifier = Modifier
             .padding(0.dp, 6.dp)
@@ -28,19 +29,19 @@ fun BorrowedBookTemplate() {
             .padding(12.dp)
     ) {
         Text(
-            text = "Harry Potter",
+            text = borrowedBook.bookTitle,
             fontSize = 23.sp,
             fontWeight = FontWeight.Medium,
             color = Color.White
         )
         Text(
-            text = "borrowed on : 12/12/2023",
+            text = "borrowed on : ${borrowedBook.borrowedDate}",
             color = Color.Gray,
             fontSize = 13.sp,
             letterSpacing = 0.sp,
         )
         Text(
-            text = "due on : 12/12/2023",
+            text = "due on : ${borrowedBook.dueDate}",
             color = Color.Gray,
             fontSize = 13.sp,
             letterSpacing = 0.sp,
@@ -53,11 +54,13 @@ fun BorrowedBookTemplate() {
                 .height(38.dp)
                 .border(Dp.Hairline, Color.LightGray, RoundedCornerShape(19.dp))
             ,
-            text = if(true) "Returned" else "Not Available",
-            buttonColor = if(true) Color.Transparent else Color.White,
-            textColor = if(true) Color.LightGray else Color.Black
+            text = if(borrowedBook.returned) "Returned" else "Not Available",
+            buttonColor = if(borrowedBook.returned) Color.Transparent else Color.White,
+            textColor = if(borrowedBook.returned) Color.LightGray else Color.Black
         ) {
-
+            if (!borrowedBook.returned){
+                onClick()
+            }
         }
     }
 }
