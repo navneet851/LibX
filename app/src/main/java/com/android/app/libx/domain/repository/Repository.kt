@@ -8,6 +8,7 @@ import com.android.app.libx.data.models.register.RegisterResponse
 import com.android.app.libx.data.models.register.VerifyOtp
 import com.android.app.libx.data.models.user.User
 import com.android.app.libx.data.models.user.UserResponse
+import com.android.app.libx.data.models.user.UsersResponse
 import com.android.app.libx.domain.entities.Response
 import kotlinx.coroutines.flow.Flow
 
@@ -22,5 +23,9 @@ interface Repository {
     //book
 
     suspend fun  getAllBooks(): Flow<Response<BooksResponse>>
+
+    //Admin
+
+    suspend fun getAllUsers(): Flow<Response<UsersResponse>>
 
 }

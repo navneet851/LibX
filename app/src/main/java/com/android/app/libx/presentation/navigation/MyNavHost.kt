@@ -4,6 +4,7 @@ import androidx.compose.runtime.Composable
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
+import com.android.app.libx.presentation.ui.screens.AdminScreen
 import com.android.app.libx.presentation.ui.screens.LibraryScreen
 import com.android.app.libx.presentation.ui.screens.LoginScreen
 import com.android.app.libx.presentation.ui.screens.ProfileScreen
@@ -33,7 +34,7 @@ fun MyNavHost(navController: NavHostController, startDestination: String) {
             LibraryScreen()
         }
         composable(Routes.Admin.route){
-
+            AdminScreen()
         }
     }
 

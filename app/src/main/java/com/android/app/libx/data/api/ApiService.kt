@@ -9,6 +9,7 @@ import com.android.app.libx.data.models.register.RegisterResponse
 import com.android.app.libx.data.models.register.VerifyOtp
 import com.android.app.libx.data.models.user.User
 import com.android.app.libx.data.models.user.UserResponse
+import com.android.app.libx.data.models.user.UsersResponse
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.DELETE
@@ -48,8 +49,8 @@ interface ApiService {
 
     // Admin routes
 
-    @GET("all")
-    suspend fun getAllUser(): Response<List<UserResponse>>
+    @GET("api/v1/user/all")
+    suspend fun getAllUsers(): Response<UsersResponse>
 
 //    @POST("add/new-admin")
 //    suspend fun registerNewAdmin(@Body request: RegisterRequest) : Response<RegisterResponse>

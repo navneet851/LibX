@@ -26,6 +26,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -139,7 +140,19 @@ fun ProfileScreen(navController: NavHostController) {
                 )
 
                 HorizontalDivider()
-                LazyColumn {
+                LazyColumn(
+                    horizontalAlignment = Alignment.CenterHorizontally,
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    item {
+                        if (userData.borrowedBooks.isEmpty()){
+                            Text(
+                                modifier = Modifier.padding(10.dp),
+                                text = "No Book Found",
+                                color = Color.Gray
+                            )
+                        }
+                    }
                     items(userData.borrowedBooks.size){
                         BorrowedBookTemplate(userData.borrowedBooks[it]){
 

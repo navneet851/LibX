@@ -10,6 +10,7 @@ import com.android.app.libx.data.models.register.RegisterResponse
 import com.android.app.libx.data.models.register.VerifyOtp
 import com.android.app.libx.data.models.user.User
 import com.android.app.libx.data.models.user.UserResponse
+import com.android.app.libx.data.models.user.UsersResponse
 import com.android.app.libx.domain.entities.Response
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.Flow
@@ -105,6 +106,21 @@ class RepositoryImpl @Inject constructor(
 
     override suspend fun getAllBooks(): Flow<Response<BooksResponse>> {
         val response = apiService.getAllBooks()
+        return flow {
+            emit(Response.Loading())
+            if (response.isSuccessful && response.body()!!.success) {
+                emit(Response.Success(response.body()!!))
+            } else {
+                val errorBody = response.errorBody()?.string()
+                emit(Response.Error(getErrorMessage(errorBody)))
+            }
+        }
+    }
+
+    //Admin
+
+    override suspend fun getAllUsers(): Flow<Response<UsersResponse>> {
+        val response = apiService.getAllUsers()
         return flow {
             emit(Response.Loading())
             if (response.isSuccessful && response.body()!!.success) {
